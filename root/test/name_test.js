@@ -38,6 +38,50 @@
     strictEqual(this.elems.{%= js_safe_name %}().text(), 'awesome0awesome1awesome2', 'should be awesome');
   });
 
+  module('jQuery#{%= js_safe_name %}("increment")', {
+    // This will run before each test in this module.
+    setup: function() {
+      this.elems = $('#qunit-fixture').children().{%= js_safe_name %}();
+    }
+  });
+
+  test('is awesome', function() {
+    expect(1);
+    strictEqual(
+      this.elems.{%= js_safe_name %}('increment').text(),
+      'awesome1awesome2awesome3',
+      'should be incremented awesome');
+  });
+
+  module('jQuery#{%= js_safe_name %}("destroy")', {
+    // This will run before each test in this module.
+    setup: function() {
+      this.elems = $('#qunit-fixture').children().{%= js_safe_name %}();
+    }
+  });
+
+  test('is awesome', function() {
+    expect(1);
+    strictEqual(this.elems.{%= js_safe_name %}('destroy').text(), '', 'should be empty');
+  });
+
+  module('jQuery#{%= js_safe_name %}("notAllowd")', {
+    // This will run before each test in this module.
+    setup: function() {
+      this.elems = $('#qunit-fixture').children();
+      this.elems.{%= js_safe_name %}();
+    }
+  });
+
+  test('throws', function() {
+    expect(1);
+    throws(
+      function() { this.elems.{%= js_safe_name %}('notAllowd'); },
+      Error,
+      'raised error is an instance of Error'
+    );
+  });
+
   module('jQuery.{%= js_safe_name %}');
 
   test('is awesome', function() {
